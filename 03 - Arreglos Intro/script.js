@@ -1,51 +1,59 @@
-var alumnos = [
-    "Carlos Manuel",
-    "Cesar Oziel",
-    "Regina",
-    "Diego Leonardo",
-    "Andrea Carolina",
-    "Mayela Mayté",
-    "Eder Abraham",
-    "Diego Alonso",
-    "Naomi Michelle",
-    "Eder Abisai",
-    "Regina", //Dariela
-    "Carlos", //Manuel
-    "Carlos" //Alejandro
-,];
+const inventors = [
+  { first: 'Albert', last: 'Einstein', year: 1879, passed: 1955 },
+  { first: 'Isaac', last: 'Newton', year: 1643, passed: 1727 },
+  { first: 'Galileo', last: 'Galilei', year: 1564, passed: 1642 },
+  { first: 'Marie', last: 'Curie', year: 1867, passed: 1934 },
+  { first: 'Johannes', last: 'Kepler', year: 1571, passed: 1630 },
+  { first: 'Nicolaus', last: 'Copernicus', year: 1473, passed: 1543 },
+  { first: 'Max', last: 'Planck', year: 1858, passed: 1947 },
+  { first: 'Katherine', last: 'Blodgett', year: 1898, passed: 1979 },
+  { first: 'Ada', last: 'Lovelace', year: 1815, passed: 1852 },
+  { first: 'Sarah E.', last: 'Goode', year: 1855, passed: 1905 },
+  { first: 'Lise', last: 'Meitner', year: 1878, passed: 1968 },
+  { first: 'Hanna', last: 'Hammarström', year: 1829, passed: 1909 }
+];
 
-//elimina el ultimo elemento del arreglo
-alumnos.pop();
+// Filtrar inventores nacidos en los 1500
+const fifteen = inventors.filter(inventor => inventor.year >= 1500 && inventor.year < 1600);
+console.log("Inventores nacidos en los 1500:", fifteen);
 
-//Agregar 
-alumnos.push("Edgar Aurelio");
+// Arreglo con los nombres completos
+const fullNames = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+console.log("Nombres completos:", fullNames);
 
-//elimina al inicio
-alumnos.shift();
+// Ordenar por fecha de nacimiento
+const orderedByBirth = inventors.sort((a, b) => a.year - b.year);
+console.log("Ordenados por año:", orderedByBirth);
 
-//Agrega al inicio
-alumnos.unshift("Axel Gabriel");
+// Total de años vividos
+const totalYears = inventors.reduce((total, inventor) => total + (inventor.passed - inventor.year), 0);
+console.log("Años vividos en total:", totalYears);
 
-//Cambia valor de elemento
-alumnos[4]=  "Carlos Manuel";
+//Ordenar por los años que vivieron
+const oldest = inventors.sort((a, b) => (b.passed - b.year) - (a.passed - a.year));
+console.log("Ordenados por años vividos:", oldest);
 
+// Promesa que devuelve información de un inventor si existe
+function buscarInventor(nombre) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const found = inventors.find(
+        inventor => inventor.first.toLowerCase() === nombre.toLowerCase()
+      );
 
-console.log(alumnos.indexOf("Eder Abisai"));
-console.log(alumnos.includes("Alejandro"));
+      if (found) {
+        resolve(`${found.first} ${found.last} nació en ${found.year} y murió en ${found.passed}`);
+      } else {
+        reject(`No se encontró ningún inventor con el nombre "${nombre}".`);
+      }
+    }, 1000); // simula retraso
+  });
+}
 
-console.log(alumnos.find(nombre => nombre == "Regina"));
-//Equivale a 
-// for(var i = 0; i <alumnos.length; i++){
-//     if(alumnos[i] == "Regina"){
-//         console.log(alumnos[i]);
-//         break;
-//     }
-// }
-
-console.log(alumnos.findIndex(nombre => nombre=="Regina"));
-// for(var j= 0; j < alumnos.length; j++){
-//     if(alumnos[j] == "Regina"){
-//         console.log(j);
-//         break;
-//     }
-// }
+// Ejemplo con botón en HTML
+document.getElementById("btnPromesa").addEventListener("click", () => {
+  const nombre = prompt("Ingresa el nombre del inventor (por ejemplo: Albert)");
+  buscarInventor(nombre)
+    .then(respuesta => console.log(respuesta))
+    .catch(error => console.error(error));
+});
