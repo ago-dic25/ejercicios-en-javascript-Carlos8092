@@ -52,7 +52,7 @@ function buscarInventor(nombre) {
 
 // Ejemplo con botón en HTML
 document.getElementById("btnPromesa").addEventListener("click", () => {
-  const nombre = prompt("Ingresa el nombre del inventor (por ejemplo: Albert)");
+  const nombre = prompt("Ingresa el nombre del inventor");
   buscarInventor(nombre)
     .then(respuesta => console.log(respuesta))
     .catch(error => console.error(error));
